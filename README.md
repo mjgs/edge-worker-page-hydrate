@@ -58,3 +58,6 @@ You will need to set the following environment variables in your Github repo as 
 - **API_URL** - The path to your Netlify function used for data fetch, i.e https://example.com/.netlify/functions/hello
 - **NETLIFY_DEPLOY_ENABLED** - Deploy to Netlify using CLI (yes|no)
 - **CLOUDFLARE_DEPLOY_ENABLED** - Deploy to Cloudflare using CLI (yes|no)
+- **NETLIFY_AUTH_TOKEN** - Netlify auth token
+- **NETLIFY_SITE_ID** - ID of your Netlify site
+- **NETLIFY_TEAM** - Name of your Netlify team
