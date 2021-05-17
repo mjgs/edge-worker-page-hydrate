@@ -1,0 +1,31 @@
+name: Netlify Create Empty Project
+on: 
+  workflow_dispatch:
+    inputs:
+      name-length:
+        description: Number of letters for site name
+        default: 20
+        required: true
+      nodejs-version:
+        description: NodeJS Version
+        default: 12.x
+        required: true
+jobs:
+  create-project:
+    name: Create Project (raw)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: "${{ github.events.inputs.nodejs-version}}"
+      - name: Install and run netlify cli sites:create sub command
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_TEAM: ${{ secrets.NETLIFY_TEAM }}
+          name_length: ${{ github.event.inputs.name-length }}
+        run: |
+          npm install netlify-cli
+          ./node_modules/.bin/netlify sites:create --name "$(head /dev/urandom | tr -dc a-z0-9 | head -c $name_length)" << ANSWERS
+            $NETLIFY_TEAM
+          ANSWERS
