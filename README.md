@@ -51,13 +51,23 @@ If you don’t want to give Netlify access to your GitHub account (requires full
 
 You will need to set the following environment variables in your Github repo as secrets:
 
+### Worker
+
+- **CLOUDFLARE_DEPLOY_ENABLED** - Deploy to Cloudflare using CLI (yes|no)
 - **CF_ACCOUNT_ID** - Found at the bottom of the main page of you Cloudflare account
 - **CF_ZONE_ID** - Found at the bottom of the main page of you Cloudflare account
 - **CF_ROUTE** - The route to your index page, i.e example.com
 - **CF_API_TOKEN** - Found on you Cloudflare account, you will need to create a token that grants you access to the workers 
 - **API_URL** - The path to your Netlify function used for data fetch, i.e https://example.com/.netlify/functions/hello
-- **NETLIFY_DEPLOY_ENABLED** - Deploy to Netlify using CLI (yes|no)
-- **CLOUDFLARE_DEPLOY_ENABLED** - Deploy to Cloudflare using CLI (yes|no)
+
+### Deploy to Netlify via CLI
+
+These are only necessary if you decide to deploy to Netlify using their CLI tool rather than via the Netlify integration with your Guthub account. First set these:
+
 - **NETLIFY_AUTH_TOKEN** - Netlify auth token
-- **NETLIFY_SITE_ID** - ID of your Netlify site
 - **NETLIFY_TEAM** - Name of your Netlify team
+
+Then use the manually triggered netlifyCreateEmptyProject GitHub Action to create an empty Netlify project. Then set the following:
+
+- **NETLIFY_DEPLOY_ENABLED** - Deploy to Netlify using CLI (yes|no)
+- **NETLIFY_SITE_ID** - ID of your Netlify site
