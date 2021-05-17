@@ -1,0 +1,51 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - main
+env:
+  NETLIFY_DEPLOY_ENABLED: ${{ secrets.NETLIFY_DEPLOY_ENABLED }}
+  CLOUDFLARE_DEPLOY_ENABLED: ${{ secrets.CLOUDFLARE_DEPLOY_ENABLED }}
+
+# Move if statements from step to job level once this bug is resolved:
+# https://github.community/t/how-to-set-and-access-a-workflow-variable/17335/22
+
+jobs:
+  deploy-to-netlify:
+    runs-on: ubuntu-latest
+    name: Deploy to Netlify
+    env:
+      FUNCTIONS_DIR: './functions'
+    steps:
+      - name: Clone repo
+        if: ${{ env.NETLIFY_DEPLOY_ENABLED == 'yes' }}
+        uses: actions/checkout@v2
+      - name: Deploy using Netlify CLI
+        if: ${{ env.NETLIFY_DEPLOY_ENABLED == 'yes' }}
+        uses: netlify/actions/cli@master
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        with:
+          args: deploy --dir=./ --functions=$FUNCTIONS_DIR --prod
+          secrets: '["NETLIFY_AUTH_TOKEN", "NETLIFY_SITE_ID"]'
+  deploy-to-cloudflare:
+    runs-on: ubuntu-latest
+    name: Deploy to Cloudflare 
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        if: ${{ env.CLOUDFLARE_DEPLOY_ENABLED == 'yes' }}
+      - name: Deploy
+        uses: cloudflare/wrangler-action@1.3.0
+        if: ${{ env.CLOUDFLARE_DEPLOY_ENABLED == 'yes' }}
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
+          CF_ROUTE: ${{ secrets.CF_ROUTE }}
+          API_URL: ${{ secrets.API_URL }}
+        with:
+          secrets: |
+            API_URL
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          workingDirectory: 'worker'
