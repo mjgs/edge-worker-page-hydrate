@@ -1,0 +1,3 @@
+name = "edge-worker-page-hydrate"
+type = "javascript"
+workers_dev = false
