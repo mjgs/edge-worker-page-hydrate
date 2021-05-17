@@ -62,7 +62,7 @@ You will need to set the following environment variables in your Github repo as 
 
 ### Deploy to Netlify via CLI
 
-These are only necessary if you decide to deploy to Netlify using their CLI tool rather than via the Netlify integration with your Guthub account. First set these:
+These are only necessary if you decide to deploy to Netlify using their CLI tool rather than via the Netlify integration with your Github account. First set these:
 
 - **NETLIFY_AUTH_TOKEN** - Netlify auth token
 - **NETLIFY_TEAM** - Name of your Netlify team
