@@ -6,7 +6,7 @@ This is a minimal example of using Cloudflare edge workers to hydrate a static p
 
 Though the example shows a statically generated page being hydrated, the same technique could be used on a dynamically generated page, which might make sense in situations where you don’t have the possibility to run fetch requests on the web server, e.g. a website hosted on Squarespace.
 
-# Demo
+## Demo
 
 - [website](https://edge-worker-page-hydrate.markjgsmith.com)
 - [api](https://edge-worker-page-hydrate.markjgsmith.com/.netlify/functions/hello)
